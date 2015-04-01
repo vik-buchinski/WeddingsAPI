@@ -1,6 +1,6 @@
 ﻿using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
-using WeddingAPI.Models.Auth;
+using WeddingAPI.Models.Database.Auth;
 
 namespace WeddingAPI.DAL
 {

@@ -1,11 +1,9 @@
-using WeddingAPI.Models.Auth;
+using WeddingAPI.Models.Database.Auth;
+using WeddingAPI.Utils;
 
 namespace WeddingAPI.Migrations
 {
-    using System;
-    using System.Data.Entity;
     using System.Data.Entity.Migrations;
-    using System.Linq;
 
     internal sealed class Configuration : DbMigrationsConfiguration<DAL.WeddingContext>
     {
@@ -21,8 +19,10 @@ namespace WeddingAPI.Migrations
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
             //  to avoid creating duplicate seed data. E.g.
             //
+            var saltValue = Common.GenerateSaltValue();
+            var passwordHash = Common.HashPassword("testPassword", saltValue);
              context.UserTable.AddOrUpdate(p=> p.Id,
-                 new UserModel { Email = "vik-buchinski@ya.ru", PasswordHash = "test hash"}
+                 new UserModel { Email = "vik-buchinski@ya.ru", PasswordHash = passwordHash, SaltValue = saltValue }
                 );
             context.SaveChanges();
 
