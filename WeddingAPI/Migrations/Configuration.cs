@@ -9,7 +9,8 @@ namespace WeddingAPI.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
+            AutomaticMigrationDataLossAllowed = true;
         }
 
         protected override void Seed(DAL.WeddingContext context)
@@ -19,10 +20,10 @@ namespace WeddingAPI.Migrations
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
             //  to avoid creating duplicate seed data. E.g.
             //
-            var saltValue = Common.GenerateSaltValue();
-            var passwordHash = Common.HashPassword("testPassword", saltValue);
+            var password = "testPassword";
+            var passwordHash = PasswordHash.CreateHash(password);
              context.UserTable.AddOrUpdate(p=> p.Id,
-                 new UserModel { Email = "vik-buchinski@ya.ru", PasswordHash = passwordHash, SaltValue = saltValue }
+                 new UserModel { Email = "vik-buchinski@ya.ru", PasswordHash = passwordHash }
                 );
             context.SaveChanges();
 

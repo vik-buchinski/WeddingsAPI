@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using Newtonsoft.Json.Linq;
 using WeddingAPI.DAL;
 using WeddingAPI.Models.Requests.Auth;
@@ -10,6 +11,7 @@ using WeddingAPI.Utils;
 namespace WeddingAPI.Controllers
 {
     [RoutePrefix("api/auth")]
+    [EnableCors(origins: Constants.CLIENT_URL, headers: "*", methods: "*")]
     public class AuthController : ApiController
     {
         private readonly Repositories _dataRepositories = new Repositories();
@@ -33,8 +35,7 @@ namespace WeddingAPI.Controllers
                                 _dataRepositories.UserModelRepository.FirstOrDefault(u => u.Email.Equals(email));
                             if (null != user)
                             {
-                                var passwordHash = Common.HashPassword(password, user.SaltValue);
-                                if (passwordHash.Equals(user.PasswordHash))
+                                if (PasswordHash.ValidatePassword(password,user.PasswordHash))
                                 {
                                     var session =
                                         _dataRepositories.SessionModelRepository.FirstOrDefault(

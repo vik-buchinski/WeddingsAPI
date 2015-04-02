@@ -16,8 +16,5 @@ namespace WeddingAPI.Models.Database.Auth
 
         [Required]
         public String PasswordHash { get; set; }
-
-        [Required]
-        public String SaltValue { get; set; }
     }
 }
