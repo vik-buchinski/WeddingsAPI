@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -26,12 +27,12 @@ namespace WeddingAPI.Controllers
             {
                 throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
             }
-            if (!Directory.Exists(Constants.ABOUT_UPLOADS_PATH))
+            string root = HttpContext.Current.Server.MapPath(Constants.ABOUT_UPLOADS_PATH);
+            if (!Directory.Exists(root))
             {
-                Directory.CreateDirectory(Constants.ABOUT_UPLOADS_PATH);
+                Directory.CreateDirectory(root);
             }
 
-            string root = HttpContext.Current.Server.MapPath(Constants.ABOUT_UPLOADS_PATH);
             var provider = new MultipartFormDataStreamProvider(root);
 
             try
