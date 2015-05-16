@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using WeddingAPI.DAL;
+using WeddingAPI.Models.Requests.Admin.About;
 using WeddingAPI.Utils;
 
 namespace WeddingAPI.Controllers
@@ -37,25 +38,33 @@ namespace WeddingAPI.Controllers
 
             try
             {
-                var sb = new StringBuilder(); // Holds the response body
-
+                var responseModel = new AdminAboutModel();
                 // Read the form data and return an async task.
                 await Request.Content.ReadAsMultipartAsync(provider);
 
-                //provider.FormData.Get("caption");
+                var description = provider.FormData.Get("description");
 
-                // This illustrates how to get the file names for uploaded files.
-                foreach (var file in provider.FileData)
+                if (!String.IsNullOrEmpty(description))
                 {
-                    FileInfo fileInfo = new FileInfo(file.LocalFileName);
-                    sb.Append(string.Format("Uploaded file: {0} ({1} bytes)\n", fileInfo.Name, fileInfo.Length));
+                    responseModel.Description = description;
                 }
-                return new HttpResponseMessage()
+                // This illustrates how to get the file names for uploaded files.
+                foreach (MultipartFileData file in provider.FileData)
                 {
-                    Content = new StringContent(sb.ToString())
-                };
+                    if (null != file.Headers.ContentDisposition.Name &&
+                        file.Headers.ContentDisposition.Name.Replace("\"", String.Empty)
+                              .Equals("avatar_image"))
+                    {
+                        responseModel.ImageUrl = file.LocalFileName;
+                    }
+                    else
+                    {
+                        File.Delete(file.LocalFileName);
+                    }
+                }
+                return Request.CreateResponse(HttpStatusCode.OK, responseModel);
             }
-            catch (System.Exception e)
+            catch (Exception e)
             {
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
             }

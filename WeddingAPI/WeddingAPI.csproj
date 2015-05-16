@@ -108,6 +108,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Database\Auth\SessionModel.cs" />
     <Compile Include="Models\Database\Auth\UserModel.cs" />
+    <Compile Include="Models\Requests\Admin\About\AdminAboutModel.cs" />
     <Compile Include="Models\Requests\Auth\SessionModel.cs" />
     <Compile Include="Models\Requests\Auth\SessionModelContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
