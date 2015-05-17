@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace WeddingAPI.Models.Requests.Admin.About
 {
-    public class AdminAboutModel
+    public class ViewAdminAboutModel
     {
         [JsonProperty(PropertyName = "image_url")]
         public String ImageUrl { get; set; }

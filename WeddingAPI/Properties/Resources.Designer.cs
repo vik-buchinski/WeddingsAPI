@@ -61,6 +61,15 @@ namespace WeddingAPI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bad session token.
+        /// </summary>
+        internal static string BadTokenMessage {
+            get {
+                return ResourceManager.GetString("BadTokenMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Email or password is missing..
         /// </summary>
         internal static string EmailOrPassMissingMessage {
@@ -75,6 +84,24 @@ namespace WeddingAPI.Properties {
         internal static string InvalidAuthDataMessage {
             get {
                 return ResourceManager.GetString("InvalidAuthDataMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not found.
+        /// </summary>
+        internal static string NotFountMessage {
+            get {
+                return ResourceManager.GetString("NotFountMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Media type is not supported.
+        /// </summary>
+        internal static string UnsupportedMediaTypeMessage {
+            get {
+                return ResourceManager.GetString("UnsupportedMediaTypeMessage", resourceCulture);
             }
         }
     }

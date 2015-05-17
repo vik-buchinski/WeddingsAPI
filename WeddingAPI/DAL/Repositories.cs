@@ -1,5 +1,7 @@
 ﻿using System;
+using WeddingAPI.Models.Database.Admin.About;
 using WeddingAPI.Models.Database.Auth;
+using WeddingAPI.Models.Database.Common;
 
 namespace WeddingAPI.DAL
 {
@@ -9,7 +11,18 @@ namespace WeddingAPI.DAL
 
         private GenericRepository<UserModel> _userModelRepository;
         private GenericRepository<SessionModel> _sessionModelRepository;
+        private GenericRepository<ImagesModel> _imagesModelRepository;
+        private GenericRepository<AdminAboutModel> _adminAboutModelRepository;
 
+        public GenericRepository<ImagesModel> ImagesModelRepository
+        {
+            get { return _imagesModelRepository ?? (_imagesModelRepository = new GenericRepository<ImagesModel>(_context)); }
+        }
+
+        public GenericRepository<AdminAboutModel> AdminAboutModelRepository
+        {
+            get { return _adminAboutModelRepository ?? (_adminAboutModelRepository = new GenericRepository<AdminAboutModel>(_context)); }
+        }
 
         public GenericRepository<SessionModel> SessionModelRepository
         {
