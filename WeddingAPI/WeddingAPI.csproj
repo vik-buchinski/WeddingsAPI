@@ -93,8 +93,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\AboutController.cs" />
-    <Compile Include="Controllers\AuthController.cs" />
+    <Compile Include="Controllers\Admin\AboutController.cs" />
+    <Compile Include="Controllers\Admin\AuthController.cs" />
     <Compile Include="Controllers\CommonController.cs" />
     <Compile Include="DAL\WeddingContext.cs" />
     <Compile Include="DAL\CommonRepository.cs" />

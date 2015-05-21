@@ -8,7 +8,7 @@ using WeddingAPI.DAL;
 using WeddingAPI.Models.Requests.Auth;
 using WeddingAPI.Utils;
 
-namespace WeddingAPI.Controllers
+namespace WeddingAPI.Controllers.Admin
 {
     [RoutePrefix("api/auth")]
     [EnableCors(origins: Constants.CLIENT_URL, headers: "*", methods: "*")]

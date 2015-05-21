@@ -13,7 +13,7 @@ using WeddingAPI.Models.Database.Common;
 using WeddingAPI.Models.Requests.Admin.About;
 using WeddingAPI.Utils;
 
-namespace WeddingAPI.Controllers
+namespace WeddingAPI.Controllers.Admin
 {
     [RoutePrefix("api/admin/about")]
     [EnableCors(origins: Constants.CLIENT_URL, headers: "*", methods: "*")]
