@@ -17,7 +17,7 @@ namespace WeddingAPI.Controllers.Admin
 {
     [RoutePrefix("api/admin/about")]
     [EnableCors(origins: Constants.CLIENT_URL, headers: "*", methods: "*")]
-    public class AboutController : ApiController
+    public class AdminAboutController : ApiController
     {
         private readonly Repositories _dataRepositories = new Repositories();
 
