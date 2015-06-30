@@ -123,8 +123,14 @@
   <data name="EmailOrPassMissingMessage" xml:space="preserve">
     <value>Email or password is missing.</value>
   </data>
+  <data name="ImageNotFoundMessage" xml:space="preserve">
+    <value>Image not found</value>
+  </data>
   <data name="InvalidAuthDataMessage" xml:space="preserve">
     <value>Email or password is invalid.</value>
+  </data>
+  <data name="NoPhotoMessage" xml:space="preserve">
+    <value>Please, upload photo</value>
   </data>
   <data name="NotFountMessage" xml:space="preserve">
     <value>Not found</value>

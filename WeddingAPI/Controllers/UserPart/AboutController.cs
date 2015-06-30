@@ -31,8 +31,8 @@ namespace WeddingAPI.Controllers.UserPart
                     };
                 if (null != aboutModel.ImageModelId)
                 {
-                    respModel.ImageUrl = Request.RequestUri.GetLeftPart(UriPartial.Authority) +
-                                         Constants.IMAGE_DOWNLOAD_URL + aboutModel.ImageModelId;
+                    respModel.ImageUrl = Common.GenerateImageLink((int)aboutModel.ImageModelId,
+                        Request.RequestUri.GetLeftPart(UriPartial.Authority));
                 }
             }
 

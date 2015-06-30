@@ -30,7 +30,7 @@ namespace WeddingAPI.Controllers.Admin
             {
                 return Request.CreateErrorResponse(HttpStatusCode.UnsupportedMediaType, Properties.Resources.UnsupportedMediaTypeMessage);
             }
-            string root = HttpContext.Current.Server.MapPath(Constants.ABOUT_UPLOADS_PATH);
+            string root = HttpContext.Current.Server.MapPath(Constants.IMG_UPLOADS_PATH);
             if (!Directory.Exists(root))
             {
                 Directory.CreateDirectory(root);
@@ -161,8 +161,8 @@ namespace WeddingAPI.Controllers.Admin
                     };
                 if (null != aboutModel.ImageModelId)
                 {
-                    respModel.ImageUrl = Request.RequestUri.GetLeftPart(UriPartial.Authority) +
-                                         Constants.IMAGE_DOWNLOAD_URL + aboutModel.ImageModelId;
+                    respModel.ImageUrl = Common.GenerateImageLink((int)aboutModel.ImageModelId,
+                        Request.RequestUri.GetLeftPart(UriPartial.Authority));
                 }
             }
 
