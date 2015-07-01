@@ -88,7 +88,7 @@ namespace WeddingAPI.Controllers.Admin
                     return Request.CreateErrorResponse(HttpStatusCode.NoContent, Properties.Resources.NoPhotoMessage);
                 }
 
-                return Request.CreateResponse(HttpStatusCode.OK, "");
+                return Request.CreateResponse(HttpStatusCode.Created, "");
             }
             catch (Exception e)
             {

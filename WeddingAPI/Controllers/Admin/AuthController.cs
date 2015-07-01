@@ -51,7 +51,7 @@ namespace WeddingAPI.Controllers.Admin
                                         {
                                             Session = new SessionModel { Token = session.Token }
                                         };
-                                    return Request.CreateResponse(HttpStatusCode.OK, sessionModel);
+                                    return Request.CreateResponse(HttpStatusCode.Created, sessionModel);
                                 }
                             }
                         }
