@@ -104,11 +104,14 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201507010830151_AddUrl.cs" />
+    <Compile Include="Migrations\201507010830151_AddUrl.Designer.cs">
+      <DependentUpon>201507010830151_AddUrl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Database\Admin\About\AdminAboutModel.cs" />
     <Compile Include="Models\Database\Auth\SessionModel.cs" />
     <Compile Include="Models\Database\Auth\UserModel.cs" />
-    <Compile Include="Models\Database\Common\AlbumModel.cs" />
     <Compile Include="Models\Database\Common\ImagesModel.cs" />
     <Compile Include="Models\Requests\Admin\About\ViewAdminAboutModel.cs" />
     <Compile Include="Models\Requests\Auth\SessionModel.cs" />
@@ -138,6 +141,9 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Migrations\201507010830151_AddUrl.resx">
+      <DependentUpon>201507010830151_AddUrl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

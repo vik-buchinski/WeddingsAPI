@@ -72,47 +72,23 @@ namespace WeddingAPI.Controllers.Admin
                         File.Delete(file.LocalFileName);
                     }
                 }
-                int imageId;
                 if (!String.IsNullOrEmpty(uploadedFilePath))
                 {
                     var imageModel = new ImagesModel
                                      {
                                          LocalFileName = uploadedFilePath,
-                                         Description = description
+                                         Description = description,
+                                         AlbumType = Constants.AlbumTypes.BOUQUETS.ToString()
                                      };
                     _dataRepositories.ImagesModelRepository.Insert(imageModel);
                     _dataRepositories.Save();
-                    imageId = _dataRepositories.ImagesModelRepository.FirstOrDefault(
-                        f => f.LocalFileName.Equals(uploadedFilePath)).Id;
                 }
                 else
                 {
                     return Request.CreateErrorResponse(HttpStatusCode.NoContent, Properties.Resources.NoPhotoMessage);
                 }
 
-                var bouquetsAlbumModel =
-                    _dataRepositories.AlbumModelRepository.FirstOrDefault(
-                        f => f.Type.Equals(Constants.AlbumTypes.BOUQUETS.ToString()));
-
-                if (bouquetsAlbumModel == null)
-                {
-                    bouquetsAlbumModel =
-                        new AlbumModel
-                        {
-                            Type = Constants.AlbumTypes.BOUQUETS.ToString(),
-                            Images = new List<int>()
-                        };
-                    _dataRepositories.AlbumModelRepository.Insert(bouquetsAlbumModel);
-                    _dataRepositories.Save();
-                    bouquetsAlbumModel =
-                        _dataRepositories.AlbumModelRepository.FirstOrDefault(
-                            f => f.Type.Equals(Constants.AlbumTypes.BOUQUETS.ToString()));
-                }
-                bouquetsAlbumModel.Images.Add(imageId);
-                _dataRepositories.AlbumModelRepository.Update(bouquetsAlbumModel);
-                _dataRepositories.Save();
-
-                return Request.CreateResponse(HttpStatusCode.OK);
+                return Request.CreateResponse(HttpStatusCode.OK, "");
             }
             catch (Exception e)
             {
@@ -120,8 +96,8 @@ namespace WeddingAPI.Controllers.Admin
             }
         }
 
-        [Route("edit_image/{imageId}")]
-        [HttpPost]
+        [Route("images/{imageId}")]
+        [HttpPut]
         public async Task<HttpResponseMessage> EditImage(int imageId)
         {
             // Check if the request contains multipart/form-data.
@@ -174,7 +150,7 @@ namespace WeddingAPI.Controllers.Admin
                 }
                 var imageModel = _dataRepositories.ImagesModelRepository.GetById(imageId);
 
-                if (null == imageModel)
+                if (null == imageModel || !imageModel.AlbumType.Equals(Constants.AlbumTypes.BOUQUETS.ToString()))
                 {
                     return Request.CreateErrorResponse(HttpStatusCode.NotFound, Properties.Resources.ImageNotFoundMessage);
                 }
@@ -183,15 +159,11 @@ namespace WeddingAPI.Controllers.Admin
                 {
                     File.Delete(imageModel.LocalFileName);
                     imageModel.LocalFileName = uploadedFilePath;
-                    imageModel.Description = description;
-                    _dataRepositories.ImagesModelRepository.Update(imageModel);
-                    _dataRepositories.Save();
                 }
-                else
-                {
-                    return Request.CreateErrorResponse(HttpStatusCode.NoContent, Properties.Resources.NoPhotoMessage);
-                }
-                return Request.CreateResponse(HttpStatusCode.OK);
+                imageModel.Description = description;
+                _dataRepositories.ImagesModelRepository.Update(imageModel);
+                _dataRepositories.Save();
+                return Request.CreateResponse(HttpStatusCode.OK, "");
             }
             catch (Exception e)
             {
@@ -203,16 +175,15 @@ namespace WeddingAPI.Controllers.Admin
         private List<BouquetImageModel> GetBouquetImages()
         {
             var bouquets = new List<BouquetImageModel>();
-            var bouquetsAlbumModel =
-                _dataRepositories.AlbumModelRepository.FirstOrDefault(
-                    f => f.Type.Equals(Constants.AlbumTypes.BOUQUETS.ToString()));
-            if (bouquetsAlbumModel == null)
+            var images =
+                _dataRepositories.ImagesModelRepository.Get(
+                    f => f.AlbumType.Equals(Constants.AlbumTypes.BOUQUETS.ToString()));
+            if (images == null)
             {
                 return null;
             }
-            foreach (var id in bouquetsAlbumModel.Images)
+            foreach (var image in images)
             {
-                var image = _dataRepositories.ImagesModelRepository.GetById(id);
                 bouquets.Add(new BouquetImageModel
                              {
                                  Id = image.Id,
@@ -270,8 +241,18 @@ namespace WeddingAPI.Controllers.Admin
                 return Request.CreateErrorResponse(HttpStatusCode.Unauthorized, Properties.Resources.BadTokenMessage);
             }
 
+            var imageModel = _dataRepositories.ImagesModelRepository.GetById(id);
 
-            return Request.CreateResponse(HttpStatusCode.OK, GetBouquetImages());
+            if (null == imageModel || !imageModel.AlbumType.Equals(Constants.AlbumTypes.BOUQUETS.ToString()))
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.NotFound, Properties.Resources.ImageNotFoundMessage);
+            }
+
+            File.Delete(imageModel.LocalFileName);
+            _dataRepositories.ImagesModelRepository.Delete(imageModel);
+            _dataRepositories.Save();
+
+            return Request.CreateResponse(HttpStatusCode.OK, "");
         }
 
         protected override void Dispose(bool disposing)

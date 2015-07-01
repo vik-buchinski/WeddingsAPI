@@ -5,7 +5,7 @@ namespace WeddingAPI.Migrations
 {
     using System.Data.Entity.Migrations;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<DAL.WeddingContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<WeddingAPI.DAL.WeddingContext>
     {
         public Configuration()
         {
@@ -13,7 +13,7 @@ namespace WeddingAPI.Migrations
             AutomaticMigrationDataLossAllowed = true;
         }
 
-        protected override void Seed(DAL.WeddingContext context)
+        protected override void Seed(WeddingAPI.DAL.WeddingContext context)
         {
             //  This method will be called after migrating to the latest version.
 
@@ -22,11 +22,10 @@ namespace WeddingAPI.Migrations
             //
             var password = "testPassword";
             var passwordHash = PasswordHash.CreateHash(password);
-             context.UserTable.AddOrUpdate(p=> p.Id,
-                 new UserModel { Email = "vik-buchinski@ya.ru", PasswordHash = passwordHash }
-                );
+            context.UserTable.AddOrUpdate(p => p.Id,
+                new UserModel { Email = "vik-buchinski@ya.ru", PasswordHash = passwordHash }
+               );
             context.SaveChanges();
-
         }
     }
 }
