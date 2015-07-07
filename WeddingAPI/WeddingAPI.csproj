@@ -98,15 +98,12 @@
     <Compile Include="Controllers\Admin\AdminBouquetsController.cs" />
     <Compile Include="Controllers\CommonController.cs" />
     <Compile Include="Controllers\UserPart\AboutController.cs" />
+    <Compile Include="Controllers\UserPart\BouquetsController.cs" />
     <Compile Include="DAL\WeddingContext.cs" />
     <Compile Include="DAL\CommonRepository.cs" />
     <Compile Include="DAL\Repositories.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201507010830151_AddUrl.cs" />
-    <Compile Include="Migrations\201507010830151_AddUrl.Designer.cs">
-      <DependentUpon>201507010830151_AddUrl.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Database\Admin\About\AdminAboutModel.cs" />
@@ -141,9 +138,6 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201507010830151_AddUrl.resx">
-      <DependentUpon>201507010830151_AddUrl.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
