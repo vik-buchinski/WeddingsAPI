@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -10,7 +9,6 @@ using System.Web.Http;
 using System.Web.Http.Cors;
 using WeddingAPI.DAL;
 using WeddingAPI.Models.Database.Common;
-using WeddingAPI.Models.Requests.Admin.Bouquets;
 using WeddingAPI.Utils;
 
 namespace WeddingAPI.Controllers.Admin
@@ -171,30 +169,6 @@ namespace WeddingAPI.Controllers.Admin
             }
         }
 
-        [NonAction]
-        private List<BouquetImageModel> GetBouquetImages()
-        {
-            var bouquets = new List<BouquetImageModel>();
-            var images =
-                _dataRepositories.ImagesModelRepository.Get(
-                    f => f.AlbumType.Equals(Constants.AlbumTypes.BOUQUETS.ToString()));
-            if (images == null)
-            {
-                return null;
-            }
-            foreach (var image in images)
-            {
-                bouquets.Add(new BouquetImageModel
-                             {
-                                 Id = image.Id,
-                                 Description = image.Description,
-                                 ImageUrl = Common.GenerateImageLink(image.Id,
-                                     Request.RequestUri.GetLeftPart(UriPartial.Authority))
-                             });
-            }
-            return bouquets;
-        }
-
         [Route("images")]
         [HttpGet]
         public HttpResponseMessage GetImages()
@@ -216,7 +190,7 @@ namespace WeddingAPI.Controllers.Admin
             {
                 return Request.CreateErrorResponse(HttpStatusCode.Unauthorized, Properties.Resources.BadTokenMessage);
             }
-            return Request.CreateResponse(HttpStatusCode.OK, GetBouquetImages());
+            return Request.CreateResponse(HttpStatusCode.OK, Common.GetBouquetImages(_dataRepositories, Request.RequestUri.GetLeftPart(UriPartial.Authority)));
         }
 
         [Route("images/{id}")]
