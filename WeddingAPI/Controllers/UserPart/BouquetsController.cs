@@ -19,7 +19,7 @@ namespace WeddingAPI.Controllers.UserPart
         public HttpResponseMessage GetBouquets()
         {
             return Request.CreateResponse(HttpStatusCode.OK,
-                Common.GetBouquetImages(_dataRepositories, Request.RequestUri.GetLeftPart(UriPartial.Authority)));
+                Common.GetBouquetImages(_dataRepositories, Request.RequestUri.GetLeftPart(UriPartial.Authority), false));
         }
 
         protected override void Dispose(bool disposing)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -56,6 +57,8 @@ namespace WeddingAPI.Controllers.Admin
                 var description = provider.FormData.Get("description");
 
                 String uploadedFilePath = null;
+                int? imageHeight = null;
+                int? imageWidth = null;
                 // This illustrates how to get the file names for uploaded files.
                 foreach (MultipartFileData file in provider.FileData)
                 {
@@ -64,6 +67,13 @@ namespace WeddingAPI.Controllers.Admin
                               .Equals("image"))
                     {
                         uploadedFilePath = file.LocalFileName;
+                        FileStream fileStream = new FileStream(file.LocalFileName, FileMode.Open);
+                        Image image = Image.FromStream(fileStream);
+                        imageHeight = image.Height;
+                        imageWidth = image.Width;
+                        fileStream.Close();
+                        fileStream.Dispose();
+                        image.Dispose();
                     }
                     else
                     {
@@ -76,7 +86,9 @@ namespace WeddingAPI.Controllers.Admin
                                      {
                                          LocalFileName = uploadedFilePath,
                                          Description = description,
-                                         AlbumType = Constants.AlbumTypes.BOUQUETS.ToString()
+                                         AlbumType = Constants.AlbumTypes.BOUQUETS.ToString(),
+                                         Width = imageWidth,
+                                         Height = imageHeight
                                      };
                     _dataRepositories.ImagesModelRepository.Insert(imageModel);
                     _dataRepositories.Save();
@@ -132,6 +144,8 @@ namespace WeddingAPI.Controllers.Admin
                 //var imageIdForEdit = provider.FormData.Get("image_id");
 
                 String uploadedFilePath = null;
+                int? imageHeight = null;
+                int? imageWidth = null;
                 // This illustrates how to get the file names for uploaded files.
                 foreach (MultipartFileData file in provider.FileData)
                 {
@@ -140,6 +154,13 @@ namespace WeddingAPI.Controllers.Admin
                               .Equals("image"))
                     {
                         uploadedFilePath = file.LocalFileName;
+                        FileStream fileStream = new FileStream(file.LocalFileName, FileMode.Open);
+                        Image image = Image.FromStream(fileStream);
+                        imageHeight = image.Height;
+                        imageWidth = image.Width;
+                        fileStream.Close();
+                        fileStream.Dispose();
+                        image.Dispose();
                     }
                     else
                     {
@@ -157,6 +178,8 @@ namespace WeddingAPI.Controllers.Admin
                 {
                     File.Delete(imageModel.LocalFileName);
                     imageModel.LocalFileName = uploadedFilePath;
+                    imageModel.Width = imageWidth;
+                    imageModel.Height = imageHeight;
                 }
                 imageModel.Description = description;
                 _dataRepositories.ImagesModelRepository.Update(imageModel);
@@ -190,7 +213,7 @@ namespace WeddingAPI.Controllers.Admin
             {
                 return Request.CreateErrorResponse(HttpStatusCode.Unauthorized, Properties.Resources.BadTokenMessage);
             }
-            return Request.CreateResponse(HttpStatusCode.OK, Common.GetBouquetImages(_dataRepositories, Request.RequestUri.GetLeftPart(UriPartial.Authority)));
+            return Request.CreateResponse(HttpStatusCode.OK, Common.GetBouquetImages(_dataRepositories, Request.RequestUri.GetLeftPart(UriPartial.Authority), true));
         }
 
         [Route("images/{id}")]

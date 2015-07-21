@@ -16,5 +16,9 @@ namespace WeddingAPI.Models.Database.Common
         public String Description { get; set; }
 
         public String AlbumType { get; set; }
+
+        public int? Width { get; set; }
+
+        public int? Height { get; set; }
     }
 }

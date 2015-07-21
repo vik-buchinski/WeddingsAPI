@@ -11,7 +11,13 @@ namespace WeddingAPI.Models.Requests.Admin.Bouquets
         [JsonProperty(PropertyName = "image_url")]
         public String ImageUrl { get; set; }
 
-        [JsonProperty(PropertyName = "description")]
+        [JsonProperty(PropertyName = "description", NullValueHandling = NullValueHandling.Ignore)]
         public String Description { get; set; }
+
+        [JsonProperty(PropertyName = "image_width", NullValueHandling = NullValueHandling.Ignore)]
+        public int? Width { get; set; }
+
+        [JsonProperty(PropertyName = "image_height", NullValueHandling = NullValueHandling.Ignore)]
+        public int? Height { get; set; }
     }
 }
