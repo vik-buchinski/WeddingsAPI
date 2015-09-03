@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using WeddingAPI.DAL;
-using WeddingAPI.Models.Requests.Admin.Bouquets;
+using WeddingAPI.Models.Requests.Admin.Common;
 
 namespace WeddingAPI.Utils
 {
@@ -13,12 +14,13 @@ namespace WeddingAPI.Utils
                    Constants.IMAGE_DOWNLOAD_URL + imageId;
         }
 
-        public static List<BouquetImageModel> GetBouquetImages(Repositories dataRepositories, String leftUrlPart, bool isAdmin)
+        public static List<RequestImageModel> GetAlbumImages(Repositories dataRepositories, String leftUrlPart,
+            bool isAdmin, String albumTypes)
         {
-            var bouquets = new List<BouquetImageModel>();
+            var requestImages = new List<RequestImageModel>();
             var images =
                 dataRepositories.ImagesModelRepository.Get(
-                    f => f.AlbumType.Equals(Constants.AlbumTypes.BOUQUETS.ToString()));
+                    f => f.AlbumType.Equals(albumTypes));
             if (images == null)
             {
                 return null;
@@ -27,28 +29,38 @@ namespace WeddingAPI.Utils
             {
                 if (isAdmin)
                 {
-                    bouquets.Add(new BouquetImageModel
-                    {
-                        Id = image.Id,
-                        Description = image.Description,
-                        ImageUrl = GenerateImageLink(image.Id,
-                            leftUrlPart)
-                    });
+                    requestImages.Add(new RequestImageModel
+                                      {
+                                          Id = image.Id,
+                                          Description = image.Description,
+                                          ImageUrl = GenerateImageLink(image.Id,
+                                              leftUrlPart)
+                                      });
                 }
                 else
                 {
-                    bouquets.Add(new BouquetImageModel
-                    {
-                        Id = image.Id,
-                        Description = image.Description,
-                        ImageUrl = GenerateImageLink(image.Id,
-                            leftUrlPart),
-                        Width = image.Width,
-                        Height = image.Height
-                    });
+                    requestImages.Add(new RequestImageModel
+                                      {
+                                          Id = image.Id,
+                                          Description = image.Description,
+                                          ImageUrl = GenerateImageLink(image.Id,
+                                              leftUrlPart),
+                                          Width = image.Width,
+                                          Height = image.Height
+                                      });
                 }
             }
-            return bouquets;
+            return requestImages;
+        }
+
+        public static bool IsAlbumTypeExist(String albumType)
+        {
+            var array = Enum.GetNames(typeof (Constants.AlbumTypes)).ToList();
+            if (array.Contains(albumType.ToUpper()))
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

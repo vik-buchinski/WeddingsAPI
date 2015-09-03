@@ -213,7 +213,11 @@ namespace WeddingAPI.Controllers.Admin
             {
                 return Request.CreateErrorResponse(HttpStatusCode.Unauthorized, Properties.Resources.BadTokenMessage);
             }
-            return Request.CreateResponse(HttpStatusCode.OK, Common.GetBouquetImages(_dataRepositories, Request.RequestUri.GetLeftPart(UriPartial.Authority), true));
+            return Request.CreateResponse(HttpStatusCode.OK, Common.GetAlbumImages(
+                _dataRepositories,
+                Request.RequestUri.GetLeftPart(UriPartial.Authority),
+                true,
+                Constants.AlbumTypes.BOUQUETS.ToString()));
         }
 
         [Route("images/{id}")]

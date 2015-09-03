@@ -10,16 +10,21 @@ namespace WeddingAPI.Controllers.UserPart
 {
     [RoutePrefix("api")]
     [EnableCors(origins: Constants.CLIENT_URL, headers: "*", methods: "*")]
-    public class BouquetsController : ApiController
+    public class AlbumController : ApiController
     {
         private readonly Repositories _dataRepositories = new Repositories();
 
-        [Route("bouquets")]
+        [Route("album/{type}/images")]
         [HttpGet]
-        public HttpResponseMessage GetBouquets()
+        public HttpResponseMessage GetImages(String type)
         {
+            if (String.IsNullOrEmpty(type) || !Common.IsAlbumTypeExist(type))
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.NotFound, Properties.Resources.NotFountMessage);
+            }
             return Request.CreateResponse(HttpStatusCode.OK,
-                Common.GetBouquetImages(_dataRepositories, Request.RequestUri.GetLeftPart(UriPartial.Authority), false));
+                Common.GetAlbumImages(_dataRepositories, Request.RequestUri.GetLeftPart(UriPartial.Authority), false,
+                    type.ToUpper()));
         }
 
         protected override void Dispose(bool disposing)

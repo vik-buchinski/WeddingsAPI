@@ -1,9 +1,9 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace WeddingAPI.Models.Requests.Admin.Bouquets
+namespace WeddingAPI.Models.Requests.Admin.Common
 {
-    public class BouquetImageModel
+    public class RequestImageModel
     {
         [JsonProperty(PropertyName = "id")]
         public int Id { get; set; }
