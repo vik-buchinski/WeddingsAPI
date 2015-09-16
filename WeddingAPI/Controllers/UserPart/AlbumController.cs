@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using WeddingAPI.DAL;
+using WeddingAPI.Models.Requests.Admin.Common;
 using WeddingAPI.Utils;
 
 namespace WeddingAPI.Controllers.UserPart
@@ -14,7 +16,7 @@ namespace WeddingAPI.Controllers.UserPart
     {
         private readonly Repositories _dataRepositories = new Repositories();
 
-        [Route("album/{type}/images")]
+        [Route("album_images/{type}")]
         [HttpGet]
         public HttpResponseMessage GetImages(String type)
         {
@@ -22,9 +24,27 @@ namespace WeddingAPI.Controllers.UserPart
             {
                 return Request.CreateErrorResponse(HttpStatusCode.NotFound, Properties.Resources.NotFountMessage);
             }
-            return Request.CreateResponse(HttpStatusCode.OK,
-                Common.GetAlbumImages(_dataRepositories, Request.RequestUri.GetLeftPart(UriPartial.Authority), false,
-                    type.ToUpper()));
+            var images = new List<RequestImageModel>();
+            var albums = _dataRepositories.AlbumModelRepository.Get(f=> f.AlbumType == type);
+            foreach (var albumModel in albums)
+            {
+                images.AddRange(Common.GetAlbumImages(_dataRepositories, Request.RequestUri.GetLeftPart(UriPartial.Authority), false,
+                    albumModel.Id));
+            }
+            return Request.CreateResponse(HttpStatusCode.OK, images);
+        }
+
+        [Route("album/{id}/images")]
+        [HttpGet]
+        public HttpResponseMessage GetImages(int albumId)
+        {
+            var album = _dataRepositories.AlbumModelRepository.Get(f => f.Id == albumId);
+            if (null == album)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.NotFound, Properties.Resources.NotFountMessage);
+            }
+            return Request.CreateResponse(HttpStatusCode.OK, Common.GetAlbumImages(_dataRepositories, Request.RequestUri.GetLeftPart(UriPartial.Authority), false,
+                    albumId));
         }
 
         protected override void Dispose(bool disposing)

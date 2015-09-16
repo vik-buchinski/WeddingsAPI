@@ -15,12 +15,12 @@ namespace WeddingAPI.Utils
         }
 
         public static List<RequestImageModel> GetAlbumImages(Repositories dataRepositories, String leftUrlPart,
-            bool isAdmin, String albumTypes)
+            bool isAdmin, int albumId)
         {
             var requestImages = new List<RequestImageModel>();
             var images =
                 dataRepositories.ImagesModelRepository.Get(
-                    f => f.AlbumType.Equals(albumTypes));
+                    f => f.AlbumId == albumId);
             if (images == null)
             {
                 return null;

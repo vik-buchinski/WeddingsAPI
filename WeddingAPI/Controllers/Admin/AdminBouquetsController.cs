@@ -82,11 +82,28 @@ namespace WeddingAPI.Controllers.Admin
                 }
                 if (!String.IsNullOrEmpty(uploadedFilePath))
                 {
+                    var imageAlbum =
+                        _dataRepositories.AlbumModelRepository.FirstOrDefault(
+                            f => f.AlbumType.Equals(Constants.AlbumTypes.BOUQUETS.ToString()));
+                    if (imageAlbum == null)
+                    {
+                        imageAlbum = new AlbumModel
+                            {
+                                AlbumType = Constants.AlbumTypes.BOUQUETS.ToString(),
+                                IsExpanded = true
+                            };
+                        _dataRepositories.AlbumModelRepository.Insert(imageAlbum);
+                        _dataRepositories.Save();
+                        imageAlbum =
+                        _dataRepositories.AlbumModelRepository.FirstOrDefault(
+                            f => f.AlbumType.Equals(Constants.AlbumTypes.BOUQUETS.ToString()));
+                    }
+
                     var imageModel = new ImagesModel
                                      {
                                          LocalFileName = uploadedFilePath,
                                          Description = description,
-                                         AlbumType = Constants.AlbumTypes.BOUQUETS.ToString(),
+                                         AlbumId = imageAlbum.Id,
                                          Width = imageWidth,
                                          Height = imageHeight
                                      };
@@ -168,8 +185,24 @@ namespace WeddingAPI.Controllers.Admin
                     }
                 }
                 var imageModel = _dataRepositories.ImagesModelRepository.GetById(imageId);
+                var imageAlbum =
+                        _dataRepositories.AlbumModelRepository.FirstOrDefault(
+                            f => f.AlbumType.Equals(Constants.AlbumTypes.BOUQUETS.ToString()));
+                if (imageAlbum == null)
+                {
+                    imageAlbum = new AlbumModel
+                    {
+                        AlbumType = Constants.AlbumTypes.BOUQUETS.ToString(),
+                        IsExpanded = true
+                    };
+                    _dataRepositories.AlbumModelRepository.Insert(imageAlbum);
+                    _dataRepositories.Save();
+                    imageAlbum =
+                    _dataRepositories.AlbumModelRepository.FirstOrDefault(
+                        f => f.AlbumType.Equals(Constants.AlbumTypes.BOUQUETS.ToString()));
+                }
 
-                if (null == imageModel || !imageModel.AlbumType.Equals(Constants.AlbumTypes.BOUQUETS.ToString()))
+                if (null == imageModel || imageModel.AlbumId != imageAlbum.Id)
                 {
                     return Request.CreateErrorResponse(HttpStatusCode.NotFound, Properties.Resources.ImageNotFoundMessage);
                 }
@@ -213,11 +246,27 @@ namespace WeddingAPI.Controllers.Admin
             {
                 return Request.CreateErrorResponse(HttpStatusCode.Unauthorized, Properties.Resources.BadTokenMessage);
             }
+            var imageAlbum =
+                        _dataRepositories.AlbumModelRepository.FirstOrDefault(
+                            f => f.AlbumType.Equals(Constants.AlbumTypes.BOUQUETS.ToString()));
+            if (imageAlbum == null)
+            {
+                imageAlbum = new AlbumModel
+                {
+                    AlbumType = Constants.AlbumTypes.BOUQUETS.ToString(),
+                    IsExpanded = true
+                };
+                _dataRepositories.AlbumModelRepository.Insert(imageAlbum);
+                _dataRepositories.Save();
+                imageAlbum =
+                _dataRepositories.AlbumModelRepository.FirstOrDefault(
+                    f => f.AlbumType.Equals(Constants.AlbumTypes.BOUQUETS.ToString()));
+            }
             return Request.CreateResponse(HttpStatusCode.OK, Common.GetAlbumImages(
                 _dataRepositories,
                 Request.RequestUri.GetLeftPart(UriPartial.Authority),
                 true,
-                Constants.AlbumTypes.BOUQUETS.ToString()));
+                imageAlbum.Id));
         }
 
         [Route("images/{id}")]
@@ -243,8 +292,24 @@ namespace WeddingAPI.Controllers.Admin
             }
 
             var imageModel = _dataRepositories.ImagesModelRepository.GetById(id);
+            var imageAlbum =
+                        _dataRepositories.AlbumModelRepository.FirstOrDefault(
+                            f => f.AlbumType.Equals(Constants.AlbumTypes.BOUQUETS.ToString()));
+            if (imageAlbum == null)
+            {
+                imageAlbum = new AlbumModel
+                {
+                    AlbumType = Constants.AlbumTypes.BOUQUETS.ToString(),
+                    IsExpanded = true
+                };
+                _dataRepositories.AlbumModelRepository.Insert(imageAlbum);
+                _dataRepositories.Save();
+                imageAlbum =
+                _dataRepositories.AlbumModelRepository.FirstOrDefault(
+                    f => f.AlbumType.Equals(Constants.AlbumTypes.BOUQUETS.ToString()));
+            }
 
-            if (null == imageModel || !imageModel.AlbumType.Equals(Constants.AlbumTypes.BOUQUETS.ToString()))
+            if (null == imageModel || imageModel.AlbumId != imageAlbum.Id)
             {
                 return Request.CreateErrorResponse(HttpStatusCode.NotFound, Properties.Resources.ImageNotFoundMessage);
             }

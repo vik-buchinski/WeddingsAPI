@@ -109,6 +109,7 @@
     <Compile Include="Models\Database\Admin\About\AdminAboutModel.cs" />
     <Compile Include="Models\Database\Auth\SessionModel.cs" />
     <Compile Include="Models\Database\Auth\UserModel.cs" />
+    <Compile Include="Models\Database\Common\AlbumModel.cs" />
     <Compile Include="Models\Database\Common\ImagesModel.cs" />
     <Compile Include="Models\Requests\Admin\About\ViewAdminAboutModel.cs" />
     <Compile Include="Models\Requests\Auth\SessionModel.cs" />

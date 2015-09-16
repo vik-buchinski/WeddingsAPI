@@ -4,21 +4,20 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WeddingAPI.Models.Database.Common
 {
-    public class ImagesModel
+    public class AlbumModel
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        [Required]
-        public String LocalFileName { get; set; }
+        public String AlbumName { get; set; }
 
-        public String Description { get; set; }
+        public String AlbumDescription { get; set; }
 
-        public int? AlbumId { get; set; }
+        public String AlbumType { get; set; }
 
-        public int? Width { get; set; }
+        public Boolean IsExpanded { get; set; }
 
-        public int? Height { get; set; }
+        public int? ImageId { get; set; }
     }
 }
