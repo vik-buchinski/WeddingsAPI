@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using WeddingAPI.DAL;
-using WeddingAPI.Models.Requests.Admin.Common;
 using WeddingAPI.Utils;
 
 namespace WeddingAPI.Controllers.UserPart
@@ -15,7 +13,7 @@ namespace WeddingAPI.Controllers.UserPart
     public class AlbumController : ApiController
     {
         private readonly Repositories _dataRepositories = new Repositories();
-
+        /*
         [Route("album_images/{type}")]
         [HttpGet]
         public HttpResponseMessage GetImages(String type)
@@ -31,8 +29,9 @@ namespace WeddingAPI.Controllers.UserPart
                 images.AddRange(Common.GetAlbumImages(_dataRepositories, Request.RequestUri.GetLeftPart(UriPartial.Authority), false,
                     albumModel.Id));
             }
-            return Request.CreateResponse(HttpStatusCode.OK, images);
-        }
+            return Request.CreateResponse(HttpStatusCode.OK, Common.BuildRequestAlbumModel(_dataRepositories, Request.RequestUri.GetLeftPart(UriPartial.Authority),
+                    imageAlbum, true));
+        }*/
 
         [Route("album/{id}/images")]
         [HttpGet]

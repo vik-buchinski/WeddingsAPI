@@ -2,16 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using WeddingAPI.DAL;
+using WeddingAPI.Models.Database.Common;
 using WeddingAPI.Models.Requests.Admin.Common;
 
 namespace WeddingAPI.Utils
 {
     public class Common
     {
-        public static String GenerateImageLink(int imageId, String leftUrlPart)
+        public static String GenerateImageLink(int? imageId, String leftUrlPart)
         {
-            return leftUrlPart +
-                   Constants.IMAGE_DOWNLOAD_URL + imageId;
+            if (null != imageId && !String.IsNullOrEmpty(leftUrlPart))
+            {
+                return leftUrlPart +
+                       Constants.IMAGE_DOWNLOAD_URL + imageId;
+            }
+            return null;
         }
 
         public static List<RequestImageModel> GetAlbumImages(Repositories dataRepositories, String leftUrlPart,
@@ -51,6 +56,26 @@ namespace WeddingAPI.Utils
                 }
             }
             return requestImages;
+        }
+
+        public static RequestAlbumModel BuildRequestAlbumModel(Repositories dataRepositories, String leftUrlPart,
+            AlbumModel albumModel, Boolean isAdmin)
+        {
+
+            return new RequestAlbumModel
+                   {
+                       AlbumDescription = albumModel.AlbumDescription,
+                       AlbumName = albumModel.AlbumName,
+                       Id = albumModel.Id,
+                       Images = GetAlbumImages(
+                           dataRepositories,
+                           leftUrlPart,
+                           isAdmin,
+                           albumModel.Id),
+                       IsExpanded = albumModel.IsExpanded,
+                       MainImage = GenerateImageLink(albumModel.ImageId,
+                           leftUrlPart)
+                   };
         }
 
         public static bool IsAlbumTypeExist(String albumType)

@@ -61,6 +61,15 @@ namespace WeddingAPI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Album not found.
+        /// </summary>
+        internal static string AlbumNotFound {
+            get {
+                return ResourceManager.GetString("AlbumNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Bad session token.
         /// </summary>
         internal static string BadTokenMessage {

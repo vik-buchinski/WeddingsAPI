@@ -94,11 +94,13 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\Admin\AdminAboutController.cs" />
+    <Compile Include="Controllers\Admin\AdminAlbumController.cs" />
     <Compile Include="Controllers\Admin\AuthController.cs" />
     <Compile Include="Controllers\Admin\AdminBouquetsController.cs" />
     <Compile Include="Controllers\CommonController.cs" />
     <Compile Include="Controllers\UserPart\AboutController.cs" />
     <Compile Include="Controllers\UserPart\AlbumController.cs" />
+    <Compile Include="Controllers\UserPart\BouquetsController.cs" />
     <Compile Include="DAL\WeddingContext.cs" />
     <Compile Include="DAL\CommonRepository.cs" />
     <Compile Include="DAL\Repositories.cs" />
@@ -112,6 +114,7 @@
     <Compile Include="Models\Database\Common\AlbumModel.cs" />
     <Compile Include="Models\Database\Common\ImagesModel.cs" />
     <Compile Include="Models\Requests\Admin\About\ViewAdminAboutModel.cs" />
+    <Compile Include="Models\Requests\Admin\Common\RequestAlbumModel.cs" />
     <Compile Include="Models\Requests\Auth\SessionModel.cs" />
     <Compile Include="Models\Requests\Auth\SessionModelContainer.cs" />
     <Compile Include="Models\Requests\Admin\Common\RequestImageModel.cs" />
