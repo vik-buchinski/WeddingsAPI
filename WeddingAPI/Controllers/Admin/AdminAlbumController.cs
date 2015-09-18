@@ -134,15 +134,12 @@ namespace WeddingAPI.Controllers.Admin
                         updatingAlbum.ImageId = imageForUpdate.Id;
                     }
                 }
-                //TODO: change titles and description
-
 
                 updatingAlbum.AlbumDescription = albumDescription;
                 if (!updatingAlbum.IsExpanded)
                 {
                     updatingAlbum.AlbumName = albumName;
                 }
-
 
                 _dataRepositories.AlbumModelRepository.Update(updatingAlbum);
                 _dataRepositories.Save();
