@@ -20,7 +20,7 @@ namespace WeddingAPI.Controllers.Admin
     {
         private readonly Repositories _dataRepositories = new Repositories();
 
-        [Route("{albumId}/edit")]
+        [Route("{albumId}")]
         [HttpPut]
         public async Task<HttpResponseMessage> EditImage(int albumId)
         {
@@ -115,24 +115,31 @@ namespace WeddingAPI.Controllers.Admin
                             _dataRepositories.ImagesModelRepository.Insert(imageForUpdate);
                             _dataRepositories.Save();
                             imageForUpdate =
-                                _dataRepositories.ImagesModelRepository.FirstOrDefault(f => f.LocalFileName.Equals(uploadedFilePath));
+                                _dataRepositories.ImagesModelRepository.FirstOrDefault(
+                                    f => f.LocalFileName.Equals(uploadedFilePath));
                             updatingAlbum.ImageId = imageForUpdate.Id;
                         }
                     }
                     else
                     {
                         imageForUpdate = new ImagesModel
-                        {
-                            Height = imageHeight,
-                            Width = imageWidth,
-                            LocalFileName = uploadedFilePath
-                        };
+                                         {
+                                             Height = imageHeight,
+                                             Width = imageWidth,
+                                             LocalFileName = uploadedFilePath
+                                         };
                         _dataRepositories.ImagesModelRepository.Insert(imageForUpdate);
                         _dataRepositories.Save();
                         imageForUpdate =
-                            _dataRepositories.ImagesModelRepository.FirstOrDefault(f => f.LocalFileName.Equals(uploadedFilePath));
+                            _dataRepositories.ImagesModelRepository.FirstOrDefault(
+                                f => f.LocalFileName.Equals(uploadedFilePath));
                         updatingAlbum.ImageId = imageForUpdate.Id;
                     }
+                }
+                else if (!updatingAlbum.IsExpanded)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.NotFound,
+                        Properties.Resources.AlbumImageRequired);
                 }
 
                 updatingAlbum.AlbumDescription = albumDescription;

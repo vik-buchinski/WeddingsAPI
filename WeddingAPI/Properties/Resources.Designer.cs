@@ -61,6 +61,15 @@ namespace WeddingAPI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Album image is required..
+        /// </summary>
+        internal static string AlbumImageRequired {
+            get {
+                return ResourceManager.GetString("AlbumImageRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Album not found.
         /// </summary>
         internal static string AlbumNotFound {

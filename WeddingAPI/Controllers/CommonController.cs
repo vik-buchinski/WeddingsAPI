@@ -27,11 +27,21 @@ namespace WeddingAPI.Controllers
                 return Request.CreateErrorResponse(HttpStatusCode.NotFound, Properties.Resources.NotFountMessage);
             }
 
-            FileStream fileStream = File.Open(image.LocalFileName, FileMode.Open);
-            var response = new HttpResponseMessage { Content = new StreamContent(fileStream) };
-            response.Content.Headers.ContentType = new MediaTypeHeaderValue("image/jpg");
-            response.Content.Headers.ContentLength = new FileInfo(image.LocalFileName).Length;
-            return response;
+            HttpResponseMessage result = null;
+
+            if (!File.Exists(image.LocalFileName))
+            {
+                result = Request.CreateResponse(HttpStatusCode.Gone);
+            }
+            else
+            {
+                result = Request.CreateResponse(HttpStatusCode.OK);
+                result.Content = new StreamContent(new FileStream(image.LocalFileName, FileMode.Open, FileAccess.Read));
+                result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
+                result.Content.Headers.ContentType = new MediaTypeHeaderValue(string.Format("image/{0}", "jpg"));
+            }
+
+            return result;
         }
 
         protected override void Dispose(bool disposing)
