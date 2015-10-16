@@ -120,28 +120,31 @@
   <data name="AlbumImageRequired" xml:space="preserve">
     <value>Album image is required.</value>
   </data>
+  <data name="AlbumNameRequired" xml:space="preserve">
+    <value>Album name is required.</value>
+  </data>
   <data name="AlbumNotFound" xml:space="preserve">
-    <value>Album not found</value>
+    <value>Album not found.</value>
   </data>
   <data name="BadTokenMessage" xml:space="preserve">
-    <value>Bad session token</value>
+    <value>Bad session token.</value>
   </data>
   <data name="EmailOrPassMissingMessage" xml:space="preserve">
     <value>Email or password is missing.</value>
   </data>
   <data name="ImageNotFoundMessage" xml:space="preserve">
-    <value>Image not found</value>
+    <value>Image not found.</value>
   </data>
   <data name="InvalidAuthDataMessage" xml:space="preserve">
     <value>Email or password is invalid.</value>
   </data>
   <data name="NoPhotoMessage" xml:space="preserve">
-    <value>Please, upload photo</value>
+    <value>Please, upload photo.</value>
   </data>
   <data name="NotFountMessage" xml:space="preserve">
-    <value>Not found</value>
+    <value>Not found.</value>
   </data>
   <data name="UnsupportedMediaTypeMessage" xml:space="preserve">
-    <value>Media type is not supported</value>
+    <value>Media type is not supported.</value>
   </data>
 </root>

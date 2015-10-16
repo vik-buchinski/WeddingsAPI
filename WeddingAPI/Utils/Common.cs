@@ -80,10 +80,13 @@ namespace WeddingAPI.Utils
 
         public static bool IsAlbumTypeExist(String albumType)
         {
-            var array = Enum.GetNames(typeof (Constants.AlbumTypes)).ToList();
-            if (array.Contains(albumType.ToUpper()))
+            if (!String.IsNullOrEmpty(albumType))
             {
-                return true;
+                var array = Enum.GetNames(typeof (Constants.AlbumTypes)).ToList();
+                if (array.Contains(albumType.ToUpper()))
+                {
+                    return true;
+                }
             }
             return false;
         }

@@ -19,5 +19,7 @@ namespace WeddingAPI.Models.Database.Common
         public Boolean IsExpanded { get; set; }
 
         public int? ImageId { get; set; }
+
+        public Boolean IsVisible { get; set; }
     }
 }

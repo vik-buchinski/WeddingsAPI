@@ -44,7 +44,7 @@ namespace WeddingAPI.Controllers.Admin
                 await Request.Content.ReadAsMultipartAsync(provider);
 
                 var token = provider.FormData.Get(Constants.SESSION_TOKEN_HEADER_KEY);
-                if (null == token || String.IsNullOrEmpty(token))
+                if (String.IsNullOrEmpty(token))
                 {
                     return Request.CreateErrorResponse(HttpStatusCode.Unauthorized, Properties.Resources.BadTokenMessage);
                 }
@@ -139,7 +139,7 @@ namespace WeddingAPI.Controllers.Admin
                 token = headers.GetValues(Constants.SESSION_TOKEN_HEADER_KEY).First();
             }
 
-            if (null == token || String.IsNullOrEmpty(token))
+            if (String.IsNullOrEmpty(token))
             {
                 return Request.CreateErrorResponse(HttpStatusCode.Unauthorized, Properties.Resources.BadTokenMessage);
             }

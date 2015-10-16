@@ -11,7 +11,8 @@
 
         public enum AlbumTypes
         {
-            BOUQUETS
+            BOUQUETS,
+            DECORATIONS
         };
     }
 }

@@ -70,7 +70,16 @@ namespace WeddingAPI.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Album not found.
+        ///   Looks up a localized string similar to Album name is required..
+        /// </summary>
+        internal static string AlbumNameRequired {
+            get {
+                return ResourceManager.GetString("AlbumNameRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Album not found..
         /// </summary>
         internal static string AlbumNotFound {
             get {
@@ -79,7 +88,7 @@ namespace WeddingAPI.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bad session token.
+        ///   Looks up a localized string similar to Bad session token..
         /// </summary>
         internal static string BadTokenMessage {
             get {
@@ -97,7 +106,7 @@ namespace WeddingAPI.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Image not found.
+        ///   Looks up a localized string similar to Image not found..
         /// </summary>
         internal static string ImageNotFoundMessage {
             get {
@@ -115,7 +124,7 @@ namespace WeddingAPI.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please, upload photo.
+        ///   Looks up a localized string similar to Please, upload photo..
         /// </summary>
         internal static string NoPhotoMessage {
             get {
@@ -124,7 +133,7 @@ namespace WeddingAPI.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Not found.
+        ///   Looks up a localized string similar to Not found..
         /// </summary>
         internal static string NotFountMessage {
             get {
@@ -133,7 +142,7 @@ namespace WeddingAPI.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Media type is not supported.
+        ///   Looks up a localized string similar to Media type is not supported..
         /// </summary>
         internal static string UnsupportedMediaTypeMessage {
             get {
