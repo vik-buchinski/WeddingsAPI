@@ -45,7 +45,8 @@ namespace WeddingAPI.Controllers.Admin
                 imageAlbum = new AlbumModel
                              {
                                  AlbumType = Constants.AlbumTypes.BOUQUETS.ToString(),
-                                 IsExpanded = true
+                                 IsExpanded = true,
+                                 IsVisible = true
                              };
                 _dataRepositories.AlbumModelRepository.Insert(imageAlbum);
                 _dataRepositories.Save();

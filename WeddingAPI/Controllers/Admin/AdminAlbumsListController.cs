@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -19,6 +20,43 @@ namespace WeddingAPI.Controllers.Admin
     public class AdminAlbumsListController : ApiController
     {
         private readonly Repositories _dataRepositories = new Repositories();
+        
+        [Route("{albumType}")]
+        [HttpGet]
+        public HttpResponseMessage GetAlbumsList(string albumType)
+        {
+            var headers = Request.Headers;
+            string token = null;
+            if (headers.Contains(Constants.SESSION_TOKEN_HEADER_KEY))
+            {
+                token = headers.GetValues(Constants.SESSION_TOKEN_HEADER_KEY).First();
+            }
+
+            if (String.IsNullOrEmpty(token))
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.Unauthorized, Properties.Resources.BadTokenMessage);
+            }
+            var session =
+                _dataRepositories.SessionModelRepository.FirstOrDefault(f => f.Token.Equals(token) && f.IsActive);
+            if (null == session)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.Unauthorized, Properties.Resources.BadTokenMessage);
+            }
+
+            if (!Common.IsAlbumTypeExist(albumType))
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.NotFound, Properties.Resources.AlbumNotFound);
+            }
+
+            IEnumerable<AlbumModel> albums =
+                _dataRepositories.AlbumModelRepository.Get(f => f.AlbumType.ToLower().Equals(albumType.ToLower()));
+
+            return Request.CreateResponse(HttpStatusCode.OK,
+                Common.BuildRequestAlbumsList(
+                    _dataRepositories,
+                    Request.RequestUri.GetLeftPart(UriPartial.Authority),
+                    albums));
+        }
 
         [Route("")]
         [HttpPost]
@@ -250,7 +288,7 @@ namespace WeddingAPI.Controllers.Admin
                         updatingAlbum.ImageId = imageForUpdate.Id;
                     }
                 }
-                else if (!updatingAlbum.IsExpanded)
+                else if (!updatingAlbum.IsExpanded && null == updatingAlbum.ImageId)
                 {
                     return Request.CreateErrorResponse(HttpStatusCode.NotFound,
                         Properties.Resources.AlbumImageRequired);

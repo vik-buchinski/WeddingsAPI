@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using WeddingAPI.DAL;
@@ -74,8 +75,23 @@ namespace WeddingAPI.Utils
                            albumModel.Id),
                        IsExpanded = albumModel.IsExpanded,
                        MainImage = GenerateImageLink(albumModel.ImageId,
-                           leftUrlPart)
+                           leftUrlPart),
+                       AlbumType = albumModel.AlbumType.ToString().ToLower(),
+                       IsVisible = albumModel.IsVisible
                    };
+        }
+
+        public static IList<RequestAlbumModel> BuildRequestAlbumsList(Repositories dataRepositories, String leftUrlPart,
+            IEnumerable<AlbumModel> albumsList)
+        {
+            return albumsList.Select(albumModel => new RequestAlbumModel
+                                                   {
+                                                       AlbumDescription = albumModel.AlbumDescription,
+                                                       AlbumName = albumModel.AlbumName,
+                                                       Id = albumModel.Id,
+                                                       MainImage = GenerateImageLink(albumModel.ImageId, leftUrlPart),
+                                                       IsVisible = albumModel.IsVisible
+                                                   }).ToList();
         }
 
         public static bool IsAlbumTypeExist(String albumType)

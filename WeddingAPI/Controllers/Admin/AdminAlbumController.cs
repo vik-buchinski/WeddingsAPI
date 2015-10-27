@@ -267,6 +267,40 @@ namespace WeddingAPI.Controllers.Admin
             }
         }
 
+        [Route("{albumId}")]
+        [HttpGet]
+        public HttpResponseMessage GetAlbumById(int albumId)
+        {
+            var headers = Request.Headers;
+            string token = null;
+            if (headers.Contains(Constants.SESSION_TOKEN_HEADER_KEY))
+            {
+                token = headers.GetValues(Constants.SESSION_TOKEN_HEADER_KEY).First();
+            }
+
+            if (String.IsNullOrEmpty(token))
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.Unauthorized, Properties.Resources.BadTokenMessage);
+            }
+            var session =
+                _dataRepositories.SessionModelRepository.FirstOrDefault(f => f.Token.Equals(token) && f.IsActive);
+            if (null == session)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.Unauthorized, Properties.Resources.BadTokenMessage);
+            }
+
+            var album = _dataRepositories.AlbumModelRepository.GetById(albumId);
+
+            if (null == album)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.NotFound, Properties.Resources.AlbumNotFound);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK,
+                Common.BuildRequestAlbumModel(_dataRepositories, Request.RequestUri.GetLeftPart(UriPartial.Authority),
+                    album, true));
+        }
+
         protected override void Dispose(bool disposing)
         {
             _dataRepositories.Dispose();
