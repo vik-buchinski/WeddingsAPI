@@ -100,6 +100,7 @@
     <Compile Include="Controllers\Admin\AdminBouquetsController.cs" />
     <Compile Include="Controllers\CommonController.cs" />
     <Compile Include="Controllers\UserPart\AboutController.cs" />
+    <Compile Include="Controllers\UserPart\AlbumsListController.cs" />
     <Compile Include="Controllers\UserPart\AlbumController.cs" />
     <Compile Include="Controllers\UserPart\BouquetsController.cs" />
     <Compile Include="DAL\WeddingContext.cs" />

@@ -76,7 +76,7 @@ namespace WeddingAPI.Utils
                        IsExpanded = albumModel.IsExpanded,
                        MainImage = GenerateImageLink(albumModel.ImageId,
                            leftUrlPart),
-                       AlbumType = albumModel.AlbumType.ToString().ToLower(),
+                       AlbumType = albumModel.AlbumType.ToLower(),
                        IsVisible = albumModel.IsVisible
                    };
         }
