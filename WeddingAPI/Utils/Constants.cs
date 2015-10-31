@@ -12,7 +12,9 @@
         public enum AlbumTypes
         {
             BOUQUETS,
-            DECORATIONS
+            DECORATIONS,
+            INVITATIONS,
+            GRAPHIC
         };
     }
 }
