@@ -29,7 +29,7 @@ namespace WeddingAPI.Controllers.Admin
 
                     if (null != email && null != password)
                     {
-                        if (IsValidEmail(email))
+                        if (Common.IsValidEmail(email))
                         {
                             var user =
                                 _dataRepositories.UserModelRepository.FirstOrDefault(u => u.Email.Equals(email));
@@ -62,21 +62,8 @@ namespace WeddingAPI.Controllers.Admin
             }
             catch (Exception ex)
             {
+                TraceExceptionLogger.LogException(ex);
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
-            }
-        }
-
-        [NonAction]
-        private bool IsValidEmail(string email)
-        {
-            try
-            {
-                var addr = new System.Net.Mail.MailAddress(email);
-                return addr.Address == email;
-            }
-            catch
-            {
-                return false;
             }
         }
 

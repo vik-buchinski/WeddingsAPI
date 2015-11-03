@@ -132,6 +132,9 @@
   <data name="EmailOrPassMissingMessage" xml:space="preserve">
     <value>Email or password is missing.</value>
   </data>
+  <data name="ErrorSendMessage" xml:space="preserve">
+    <value>Something happened during sending message from server.</value>
+  </data>
   <data name="ImageNotFoundMessage" xml:space="preserve">
     <value>Image not found.</value>
   </data>
@@ -143,6 +146,18 @@
   </data>
   <data name="NotFountMessage" xml:space="preserve">
     <value>Not found.</value>
+  </data>
+  <data name="RequiredDataMissing" xml:space="preserve">
+    <value>Required data is missing</value>
+  </data>
+  <data name="RequiredEmailMissing" xml:space="preserve">
+    <value>Required email is missing</value>
+  </data>
+  <data name="RequiredMessageMissing" xml:space="preserve">
+    <value>Required message is missing</value>
+  </data>
+  <data name="RequiredNameMissing" xml:space="preserve">
+    <value>Required name is missing</value>
   </data>
   <data name="UnsupportedMediaTypeMessage" xml:space="preserve">
     <value>Media type is not supported.</value>

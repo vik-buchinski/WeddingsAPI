@@ -115,6 +115,7 @@ namespace WeddingAPI.Controllers.Admin
             }
             catch (Exception e)
             {
+                TraceExceptionLogger.LogException(e);
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
             }
         }
@@ -263,6 +264,7 @@ namespace WeddingAPI.Controllers.Admin
             }
             catch (Exception e)
             {
+                TraceExceptionLogger.LogException(e);
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
             }
         }

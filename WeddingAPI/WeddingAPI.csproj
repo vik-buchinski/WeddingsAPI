@@ -96,6 +96,7 @@
     <Compile Include="Controllers\Admin\AdminAboutController.cs" />
     <Compile Include="Controllers\Admin\AdminAlbumController.cs" />
     <Compile Include="Controllers\Admin\AdminAlbumsListController.cs" />
+    <Compile Include="Controllers\Admin\AdminContactsController.cs" />
     <Compile Include="Controllers\Admin\AuthController.cs" />
     <Compile Include="Controllers\Admin\AdminBouquetsController.cs" />
     <Compile Include="Controllers\CommonController.cs" />
@@ -103,6 +104,7 @@
     <Compile Include="Controllers\UserPart\AlbumsListController.cs" />
     <Compile Include="Controllers\UserPart\AlbumController.cs" />
     <Compile Include="Controllers\UserPart\BouquetsController.cs" />
+    <Compile Include="Controllers\UserPart\ContactsController.cs" />
     <Compile Include="DAL\WeddingContext.cs" />
     <Compile Include="DAL\CommonRepository.cs" />
     <Compile Include="DAL\Repositories.cs" />
@@ -129,6 +131,7 @@
     <Compile Include="Utils\Common.cs" />
     <Compile Include="Utils\Constants.cs" />
     <Compile Include="Utils\PasswordHash.cs" />
+    <Compile Include="Utils\TraceExceptionLogger.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

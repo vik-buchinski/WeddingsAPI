@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -31,17 +32,26 @@ namespace WeddingAPI.Controllers
 
             if (!File.Exists(image.LocalFileName))
             {
-                result = Request.CreateResponse(HttpStatusCode.Gone);
+                return Request.CreateResponse(HttpStatusCode.Gone);
             }
-            else
-            {
-                result = Request.CreateResponse(HttpStatusCode.OK);
-                result.Content = new StreamContent(new FileStream(image.LocalFileName, FileMode.Open, FileAccess.Read));
-                result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
-                result.Content.Headers.ContentType = new MediaTypeHeaderValue(string.Format("image/{0}", "jpg"));
-            }
+            result = Request.CreateResponse(HttpStatusCode.OK);
 
-            return result;
+
+            using (var fileStream = new FileStream(image.LocalFileName, FileMode.Open, FileAccess.Read))
+            {
+                try
+                {
+                    result.Content = new StreamContent(fileStream);
+                    result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
+                    result.Content.Headers.ContentType = new MediaTypeHeaderValue(string.Format("image/{0}", "jpg"));
+                    return result;
+                }
+                catch (Exception e)
+                {
+                    TraceExceptionLogger.LogException(e);
+                    return Request.CreateResponse(HttpStatusCode.InternalServerError, e);
+                }
+            }
         }
 
         protected override void Dispose(bool disposing)
