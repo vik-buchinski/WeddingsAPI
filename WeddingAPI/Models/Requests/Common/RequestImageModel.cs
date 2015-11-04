@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace WeddingAPI.Models.Requests.Admin.Common
+namespace WeddingAPI.Models.Requests.Common
 {
     public class RequestImageModel
     {

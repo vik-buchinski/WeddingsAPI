@@ -1,4 +1,5 @@
 ﻿using System;
+using WeddingAPI.Models.Database.Admin;
 using WeddingAPI.Models.Database.Admin.About;
 using WeddingAPI.Models.Database.Auth;
 using WeddingAPI.Models.Database.Common;
@@ -14,6 +15,12 @@ namespace WeddingAPI.DAL
         private GenericRepository<ImagesModel> _imagesModelRepository;
         private GenericRepository<AdminAboutModel> _adminAboutModelRepository;
         private GenericRepository<AlbumModel> _albumModelRepository;
+        private GenericRepository<AdminContactsModel> _contactsModelRepository;
+
+        public GenericRepository<AdminContactsModel> ContactsModelRepository
+        {
+            get { return _contactsModelRepository ?? (_contactsModelRepository = new GenericRepository<AdminContactsModel>(_context)); }
+        }
 
         public GenericRepository<AlbumModel> AlbumModelRepository
         {

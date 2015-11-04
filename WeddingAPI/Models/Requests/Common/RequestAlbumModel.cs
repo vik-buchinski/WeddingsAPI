@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace WeddingAPI.Models.Requests.Admin.Common
+namespace WeddingAPI.Models.Requests.Common
 {
     public class RequestAlbumModel
     {

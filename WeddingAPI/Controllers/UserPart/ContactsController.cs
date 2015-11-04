@@ -5,6 +5,7 @@ using System.Web.Http;
 using System.Web.Http.Cors;
 using Newtonsoft.Json.Linq;
 using WeddingAPI.DAL;
+using WeddingAPI.Models.Requests.Common;
 using WeddingAPI.Utils;
 
 namespace WeddingAPI.Controllers.UserPart
@@ -61,7 +62,7 @@ namespace WeddingAPI.Controllers.UserPart
             textMessage += "Name: " + name + "<br/>" +
                            "Message:<br/><br/>" + message;
 
-            using (var msg = new System.Net.Mail.MailMessage("Server: " + name, "vik-buchinski@yandex.by", "Client question", textMessage))
+            using (var msg = new System.Net.Mail.MailMessage("designforlifepl@gmail.com", "designforlifemg@gmail.com", "Client question", textMessage))
             {
                 msg.IsBodyHtml = true;
                 try
@@ -75,7 +76,21 @@ namespace WeddingAPI.Controllers.UserPart
                     return Request.CreateResponse(HttpStatusCode.InternalServerError, Properties.Resources.ErrorSendMessage);
                 }
             }
+        }
+        
+        [Route("")]
+        [HttpGet]
+        public HttpResponseMessage GetDescription()
+        {
+            var descriptionMessage = _dataRepositories.ContactsModelRepository.FirstOrDefault(f => String.IsNullOrEmpty(f.DescriptionText) || !String.IsNullOrEmpty(f.DescriptionText));
+            var requestModel = new RequestContactsModel();
 
+            if (null != descriptionMessage)
+            {
+                requestModel.Description = descriptionMessage.DescriptionText;
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, requestModel);
         }
 
         protected override void Dispose(bool disposing)

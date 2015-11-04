@@ -113,15 +113,17 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Database\Admin\About\AdminAboutModel.cs" />
+    <Compile Include="Models\Database\Admin\AdminContactsModel.cs" />
     <Compile Include="Models\Database\Auth\SessionModel.cs" />
     <Compile Include="Models\Database\Auth\UserModel.cs" />
     <Compile Include="Models\Database\Common\AlbumModel.cs" />
     <Compile Include="Models\Database\Common\ImagesModel.cs" />
     <Compile Include="Models\Requests\Admin\About\ViewAdminAboutModel.cs" />
-    <Compile Include="Models\Requests\Admin\Common\RequestAlbumModel.cs" />
+    <Compile Include="Models\Requests\Common\RequestContactsModel.cs" />
+    <Compile Include="Models\Requests\Common\RequestAlbumModel.cs" />
     <Compile Include="Models\Requests\Auth\SessionModel.cs" />
     <Compile Include="Models\Requests\Auth\SessionModelContainer.cs" />
-    <Compile Include="Models\Requests\Admin\Common\RequestImageModel.cs" />
+    <Compile Include="Models\Requests\Common\RequestImageModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

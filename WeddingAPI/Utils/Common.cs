@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using WeddingAPI.DAL;
 using WeddingAPI.Models.Database.Common;
-using WeddingAPI.Models.Requests.Admin.Common;
+using WeddingAPI.Models.Requests.Common;
 
 namespace WeddingAPI.Utils
 {
