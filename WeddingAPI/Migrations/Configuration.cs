@@ -20,10 +20,13 @@ namespace WeddingAPI.Migrations
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
             //  to avoid creating duplicate seed data. E.g.
             //
-            var password = "testPassword";
+            var password = "4205distum4205";
             var passwordHash = PasswordHash.CreateHash(password);
             context.UserTable.AddOrUpdate(p => p.Id,
                 new UserModel { Email = "vik-buchinski@ya.ru", PasswordHash = passwordHash }
+               );
+            context.UserTable.AddOrUpdate(p => p.Id,
+                new UserModel { Email = "marinagrishel@gmail.com", PasswordHash = "granada01" }
                );
             context.SaveChanges();
         }

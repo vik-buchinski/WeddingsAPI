@@ -58,6 +58,7 @@ namespace WeddingAPI.Controllers.Admin
                 var description = provider.FormData.Get("description");
 
                 String uploadedFilePath = null;
+                String imageMimeType = null;
                 // This illustrates how to get the file names for uploaded files.
                 foreach (MultipartFileData file in provider.FileData)
                 {
@@ -66,6 +67,7 @@ namespace WeddingAPI.Controllers.Admin
                               .Equals("avatar_image"))
                     {
                         uploadedFilePath = file.LocalFileName;
+                        imageMimeType = file.Headers.ContentType.ToString();
                     }
                     else
                     {
@@ -77,7 +79,8 @@ namespace WeddingAPI.Controllers.Admin
                 {
                     var imageModel = new ImagesModel
                         {
-                            LocalFileName = uploadedFilePath
+                            LocalFileName = uploadedFilePath,
+                            MimeType = imageMimeType
                         };
                     _dataRepositories.ImagesModelRepository.Insert(imageModel);
                     _dataRepositories.Save();

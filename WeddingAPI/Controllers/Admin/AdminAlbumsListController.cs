@@ -107,6 +107,7 @@ namespace WeddingAPI.Controllers.Admin
                 var albumDescription = provider.FormData.Get("album_description");
 
                 String uploadedFilePath = null;
+                String imageMimeType = null;
                 int? imageHeight = null;
                 int? imageWidth = null;
                 // This illustrates how to get the file names for uploaded files.
@@ -117,6 +118,7 @@ namespace WeddingAPI.Controllers.Admin
                             .Equals("image"))
                     {
                         uploadedFilePath = file.LocalFileName;
+                        imageMimeType = file.Headers.ContentType.ToString();
                         FileStream fileStream = new FileStream(file.LocalFileName, FileMode.Open);
                         Image image = Image.FromStream(fileStream);
                         imageHeight = image.Height;
@@ -140,7 +142,8 @@ namespace WeddingAPI.Controllers.Admin
                                  {
                                      LocalFileName = uploadedFilePath,
                                      Width = imageWidth,
-                                     Height = imageHeight
+                                     Height = imageHeight,
+                                     MimeType = imageMimeType
                                  };
                 _dataRepositories.ImagesModelRepository.Insert(imageModel);
                 _dataRepositories.Save();
@@ -207,6 +210,7 @@ namespace WeddingAPI.Controllers.Admin
                 var isAlbumVisible = provider.FormData.Get("is_visible");
 
                 String uploadedFilePath = null;
+                String imageMimeType = null;
                 int? imageHeight = null;
                 int? imageWidth = null;
                 // This illustrates how to get the file names for uploaded files.
@@ -217,6 +221,7 @@ namespace WeddingAPI.Controllers.Admin
                             .Equals("image"))
                     {
                         uploadedFilePath = file.LocalFileName;
+                        imageMimeType = file.Headers.ContentType.ToString();
                         FileStream fileStream = new FileStream(file.LocalFileName, FileMode.Open);
                         Image image = Image.FromStream(fileStream);
                         imageHeight = image.Height;
@@ -255,6 +260,7 @@ namespace WeddingAPI.Controllers.Admin
                             imageForUpdate.LocalFileName = uploadedFilePath;
                             imageForUpdate.Width = imageWidth;
                             imageForUpdate.Height = imageHeight;
+                            imageForUpdate.MimeType = imageMimeType;
                             _dataRepositories.ImagesModelRepository.Update(imageForUpdate);
                         }
                         else
@@ -263,7 +269,8 @@ namespace WeddingAPI.Controllers.Admin
                             {
                                 Height = imageHeight,
                                 Width = imageWidth,
-                                LocalFileName = uploadedFilePath
+                                LocalFileName = uploadedFilePath,
+                                MimeType = imageMimeType
                             };
                             _dataRepositories.ImagesModelRepository.Insert(imageForUpdate);
                             _dataRepositories.Save();
@@ -279,7 +286,8 @@ namespace WeddingAPI.Controllers.Admin
                         {
                             Height = imageHeight,
                             Width = imageWidth,
-                            LocalFileName = uploadedFilePath
+                            LocalFileName = uploadedFilePath,
+                            MimeType = imageMimeType
                         };
                         _dataRepositories.ImagesModelRepository.Insert(imageForUpdate);
                         _dataRepositories.Save();

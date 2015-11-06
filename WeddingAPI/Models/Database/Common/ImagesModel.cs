@@ -13,6 +13,9 @@ namespace WeddingAPI.Models.Database.Common
         [Required]
         public String LocalFileName { get; set; }
 
+        [Required]
+        public String MimeType { get; set; }
+
         public String Description { get; set; }
 
         public int? AlbumId { get; set; }

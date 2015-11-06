@@ -43,7 +43,7 @@ namespace WeddingAPI.Controllers
                 {
                     result.Content = new StreamContent(fileStream);
                     result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
-                    result.Content.Headers.ContentType = new MediaTypeHeaderValue(string.Format("image/{0}", "jpg"));
+                    result.Content.Headers.ContentType = new MediaTypeHeaderValue(image.MimeType);
                     return result;
                 }
                 catch (Exception e)
