@@ -37,20 +37,18 @@ namespace WeddingAPI.Controllers
             result = Request.CreateResponse(HttpStatusCode.OK);
 
 
-            using (var fileStream = new FileStream(image.LocalFileName, FileMode.Open, FileAccess.Read))
+            var fileStream = new FileStream(image.LocalFileName, FileMode.Open, FileAccess.Read);
+            try
             {
-                try
-                {
-                    result.Content = new StreamContent(fileStream);
-                    result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
-                    result.Content.Headers.ContentType = new MediaTypeHeaderValue(image.MimeType);
-                    return result;
-                }
-                catch (Exception e)
-                {
-                    TraceExceptionLogger.LogException(e);
-                    return Request.CreateResponse(HttpStatusCode.InternalServerError, e);
-                }
+                result.Content = new StreamContent(fileStream);
+                result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
+                result.Content.Headers.ContentType = new MediaTypeHeaderValue(image.MimeType);
+                return result;
+            }
+            catch (Exception e)
+            {
+                TraceExceptionLogger.LogException(e);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, e);
             }
         }
 

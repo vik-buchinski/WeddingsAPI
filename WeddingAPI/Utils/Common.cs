@@ -61,23 +61,22 @@ namespace WeddingAPI.Utils
         public static RequestAlbumModel BuildRequestAlbumModel(Repositories dataRepositories, String leftUrlPart,
             AlbumModel albumModel, Boolean isAdmin)
         {
-
             return new RequestAlbumModel
-                   {
-                       AlbumDescription = albumModel.AlbumDescription,
-                       AlbumName = albumModel.AlbumName,
-                       Id = albumModel.Id,
-                       Images = GetAlbumImages(
-                           dataRepositories,
-                           leftUrlPart,
-                           isAdmin,
-                           albumModel.Id),
-                       IsExpanded = albumModel.IsExpanded,
-                       MainImage = GenerateImageLink(albumModel.ImageId,
-                           leftUrlPart),
-                       AlbumType = albumModel.AlbumType.ToLower(),
-                       IsVisible = albumModel.IsVisible
-                   };
+                {
+                    AlbumDescription = albumModel.AlbumDescription,
+                    AlbumName = albumModel.AlbumName,
+                    Id = albumModel.Id,
+                    Images = GetAlbumImages(
+                        dataRepositories,
+                        leftUrlPart,
+                        isAdmin,
+                        albumModel.Id),
+                    IsExpanded = albumModel.IsExpanded,
+                    MainImage = GenerateImageLink(albumModel.ImageId,
+                                                  leftUrlPart),
+                    AlbumType = albumModel.AlbumType.ToLower(),
+                    IsVisible = albumModel.IsVisible
+                };
         }
 
         public static IList<RequestAlbumModel> BuildRequestAlbumsList(Repositories dataRepositories, String leftUrlPart,

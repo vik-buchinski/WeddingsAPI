@@ -23,7 +23,7 @@ namespace WeddingAPI.Controllers.UserPart
                     f => f.AlbumType.Equals(Constants.AlbumTypes.BOUQUETS.ToString().ToLower()));
             if (null == album)
             {
-                return Request.CreateResponse(HttpStatusCode.OK);
+                return Request.CreateResponse(HttpStatusCode.OK, new object());
             }
             return Request.CreateResponse(HttpStatusCode.OK,
                 Common.BuildRequestAlbumModel(_dataRepositories, Request.RequestUri.GetLeftPart(UriPartial.Authority),

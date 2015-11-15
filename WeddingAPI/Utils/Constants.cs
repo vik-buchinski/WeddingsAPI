@@ -2,7 +2,8 @@
 {
     public class Constants
     {
-        public const string CLIENT_URL = "http://localhost:9000";
+        public const string CLIENT_URL = "http://weddingsfrontendtest.azurewebsites.net";
+        //public const string CLIENT_URL = "http://localhost:9000";
         public const string IMG_UPLOADS_PATH = "/App_Data/uploads/images";
 
         public const string IMAGE_DOWNLOAD_URL = "/api/images/";
