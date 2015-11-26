@@ -15,6 +15,7 @@ namespace WeddingAPI.DAL
         public DbSet<AdminAboutModel> AdminAboutTable { get; set; }
         public DbSet<AlbumModel> AlbumTable { get; set; }
         public DbSet<AdminContactsModel> ContactsTable { get; set; }
+        public DbSet<TitleImageModel> TitleImageTable { get; set; }
         
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

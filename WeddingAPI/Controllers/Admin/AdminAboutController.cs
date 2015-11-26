@@ -64,7 +64,7 @@ namespace WeddingAPI.Controllers.Admin
                 {
                     if (null != file.Headers.ContentDisposition.Name &&
                         file.Headers.ContentDisposition.Name.Replace("\"", String.Empty)
-                              .Equals("avatar_image"))
+                              .Equals("content_image"))
                     {
                         uploadedFilePath = file.LocalFileName;
                         imageMimeType = file.Headers.ContentType.ToString();
@@ -156,21 +156,165 @@ namespace WeddingAPI.Controllers.Admin
 
             var aboutModel = _dataRepositories.AdminAboutModelRepository.FirstOrDefault(f => true);
 
-            ViewAdminAboutModel respModel = null;
+            var respModel = new ViewAdminAboutModel();
             if (null != aboutModel)
             {
-                respModel = new ViewAdminAboutModel
-                    {
-                        Description = aboutModel.Description
-                    };
+                respModel.Description = aboutModel.Description;
                 if (null != aboutModel.ImageModelId)
                 {
-                    respModel.ImageUrl = Common.GenerateImageLink((int)aboutModel.ImageModelId,
+                    respModel.ImageUrl = Common.GenerateImageLink(aboutModel.ImageModelId,
                         Request.RequestUri.GetLeftPart(UriPartial.Authority));
                 }
             }
+            var titleImageModel =
+                _dataRepositories.TitleImageModelRepository.FirstOrDefault(
+                    k => k.PageKey.ToLower().Equals(Constants.TitleImagesTypes.ABOUT.ToString().ToLower()));
+            if (null != titleImageModel)
+            {
+                respModel.TitleImageUrl = Common.GenerateImageLink(titleImageModel.ImageId,
+                    Request.RequestUri.GetLeftPart(UriPartial.Authority));
+            }
 
             return Request.CreateResponse(HttpStatusCode.OK, respModel);
+        }
+
+        [Route("title_image")]
+        [HttpDelete]
+        public HttpResponseMessage DeleteImage()
+        {
+            var headers = Request.Headers;
+            string token = null;
+            if (headers.Contains(Constants.SESSION_TOKEN_HEADER_KEY))
+            {
+                token = headers.GetValues(Constants.SESSION_TOKEN_HEADER_KEY).First();
+            }
+
+            if (String.IsNullOrEmpty(token))
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.Unauthorized, Properties.Resources.BadTokenMessage);
+            }
+            var session =
+                _dataRepositories.SessionModelRepository.FirstOrDefault(f => f.Token.Equals(token) && f.IsActive);
+            if (null == session)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.Unauthorized, Properties.Resources.BadTokenMessage);
+            }
+            
+
+            var titleImageModel =
+                _dataRepositories.TitleImageModelRepository.FirstOrDefault(
+                    k => k.PageKey.ToLower().Equals(Constants.TitleImagesTypes.ABOUT.ToString().ToLower()));
+            if (null != titleImageModel)
+            {
+                var imageModel = _dataRepositories.ImagesModelRepository.GetById(titleImageModel.ImageId);
+                File.Delete(imageModel.LocalFileName);
+                _dataRepositories.TitleImageModelRepository.Delete(titleImageModel);
+                _dataRepositories.ImagesModelRepository.Delete(imageModel);
+                _dataRepositories.Save();
+            }
+            else
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.NoContent, "");
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, "");
+        }
+
+
+        [Route("title_image")]
+        [HttpPost]
+        public async Task<HttpResponseMessage> SaveTitleImage()
+        {
+            // Check if the request contains multipart/form-data.
+            if (!Request.Content.IsMimeMultipartContent())
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.UnsupportedMediaType, Properties.Resources.UnsupportedMediaTypeMessage);
+            }
+            string root = HttpContext.Current.Server.MapPath(Constants.IMG_UPLOADS_PATH);
+            if (!Directory.Exists(root))
+            {
+                Directory.CreateDirectory(root);
+            }
+
+            var provider = new MultipartFormDataStreamProvider(root);
+
+            try
+            {
+                // Read the form data and return an async task.
+                await Request.Content.ReadAsMultipartAsync(provider);
+
+                var token = provider.FormData.Get(Constants.SESSION_TOKEN_HEADER_KEY);
+                if (String.IsNullOrEmpty(token))
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.Unauthorized, Properties.Resources.BadTokenMessage);
+                }
+                var session =
+                    _dataRepositories.SessionModelRepository.FirstOrDefault(f => f.Token.Equals(token) && f.IsActive);
+                if (null == session)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.Unauthorized, Properties.Resources.BadTokenMessage);
+                }
+
+                String uploadedFilePath = null;
+                String imageMimeType = null;
+                // This illustrates how to get the file names for uploaded files.
+                foreach (MultipartFileData file in provider.FileData)
+                {
+                    if (null != file.Headers.ContentDisposition.Name &&
+                        file.Headers.ContentDisposition.Name.Replace("\"", String.Empty)
+                              .Equals("image"))
+                    {
+                        uploadedFilePath = file.LocalFileName;
+                        imageMimeType = file.Headers.ContentType.ToString();
+                    }
+                    else
+                    {
+                        File.Delete(file.LocalFileName);
+                    }
+                }
+
+                if (String.IsNullOrEmpty(uploadedFilePath))
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.NoContent, Properties.Resources.NoPhotoMessage);
+                }
+
+                var titleImageModel =
+                    _dataRepositories.TitleImageModelRepository.FirstOrDefault(
+                        k => k.PageKey.ToLower().Equals(Constants.TitleImagesTypes.ABOUT.ToString().ToLower()));
+                ImagesModel imageModel;
+                if (null != titleImageModel)
+                {
+                    imageModel = _dataRepositories.ImagesModelRepository.GetById(titleImageModel.ImageId);
+                    File.Delete(imageModel.LocalFileName);
+                    imageModel.LocalFileName = uploadedFilePath;
+                    imageModel.MimeType = imageMimeType;
+                    _dataRepositories.ImagesModelRepository.Update(imageModel);
+                    _dataRepositories.Save();
+                }
+                else
+                {
+                    imageModel = new ImagesModel { LocalFileName = uploadedFilePath, MimeType = imageMimeType };
+                    _dataRepositories.ImagesModelRepository.Insert(imageModel);
+                    _dataRepositories.Save();
+                    imageModel =
+                        _dataRepositories.ImagesModelRepository.FirstOrDefault(
+                            f => f.LocalFileName.Equals(uploadedFilePath));
+                    titleImageModel = new TitleImageModel
+                        {
+                            ImageId = imageModel.Id,
+                            PageKey = Constants.TitleImagesTypes.ABOUT.ToString().ToLower()
+                        };
+                    _dataRepositories.TitleImageModelRepository.Insert(titleImageModel);
+                    _dataRepositories.Save();
+                }
+
+                return Request.CreateResponse(HttpStatusCode.OK);
+            }
+            catch (Exception e)
+            {
+                TraceExceptionLogger.LogException(e);
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
+            }
         }
 
         protected override void Dispose(bool disposing)

@@ -21,18 +21,23 @@ namespace WeddingAPI.Controllers.UserPart
         {
             var aboutModel = _dataRepositories.AdminAboutModelRepository.FirstOrDefault(f => true);
 
-            ViewAdminAboutModel respModel = null;
+            var respModel = new ViewAdminAboutModel();
             if (null != aboutModel)
             {
-                respModel = new ViewAdminAboutModel
-                    {
-                        Description = aboutModel.Description
-                    };
+                respModel.Description = aboutModel.Description;
                 if (null != aboutModel.ImageModelId)
                 {
                     respModel.ImageUrl = Common.GenerateImageLink((int)aboutModel.ImageModelId,
                         Request.RequestUri.GetLeftPart(UriPartial.Authority));
                 }
+            }
+            var titleImageModel =
+                _dataRepositories.TitleImageModelRepository.FirstOrDefault(
+                    k => k.PageKey.ToLower().Equals(Constants.TitleImagesTypes.ABOUT.ToString().ToLower()));
+            if (null != titleImageModel)
+            {
+                respModel.TitleImageUrl = Common.GenerateImageLink(titleImageModel.ImageId,
+                    Request.RequestUri.GetLeftPart(UriPartial.Authority));
             }
 
             return Request.CreateResponse(HttpStatusCode.OK, respModel);

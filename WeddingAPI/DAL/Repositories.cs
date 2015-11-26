@@ -16,6 +16,12 @@ namespace WeddingAPI.DAL
         private GenericRepository<AdminAboutModel> _adminAboutModelRepository;
         private GenericRepository<AlbumModel> _albumModelRepository;
         private GenericRepository<AdminContactsModel> _contactsModelRepository;
+        private GenericRepository<TitleImageModel> _titleImageModelRepository;
+
+        public GenericRepository<TitleImageModel> TitleImageModelRepository
+        {
+            get { return _titleImageModelRepository ?? (_titleImageModelRepository = new GenericRepository<TitleImageModel>(_context)); }
+        }
 
         public GenericRepository<AdminContactsModel> ContactsModelRepository
         {
