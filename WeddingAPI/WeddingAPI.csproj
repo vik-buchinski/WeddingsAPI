@@ -143,11 +143,8 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include=".gitignore" />
-    <None Include="Properties\PublishProfiles\LocalPublish.pubxml" />
-    <None Include="Properties\PublishProfiles\ProductionTest Weddings API deploy.pubxml" />
-    <None Include="Properties\PublishProfiles\WeddingsAPI %28micr azure 1 attempt%29.pubxml" />
-    <None Include="Properties\PublishProfiles\WeddingsApi - FTP %282%29.pubxml" />
-    <None Include="Properties\PublishProfiles\WeddingsAPI - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\DesignForLifeApi - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\DesignForLifeApi - Web Deploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
